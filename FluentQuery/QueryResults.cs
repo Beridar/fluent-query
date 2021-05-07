@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace FluentQuery
 {
@@ -28,7 +29,18 @@ namespace FluentQuery
         public IEnumerable<T> ResultsAs<T>()
             where T : new()
         {
-            return _results.Select(s => new T());
+            var propertiesToMap = typeof(T).GetProperties(BindingFlags.Public);
+
+            return _results.Select(s =>
+            {
+                var resultObject = new T();
+
+                foreach(var property in propertiesToMap)
+                    if (s.ContainsKey(property.Name))
+                        property.SetValue(resultObject, s[property.Name]);
+
+                return resultObject;
+            });
         }
     }
 }
