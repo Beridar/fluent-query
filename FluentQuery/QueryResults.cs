@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FluentQuery
 {
@@ -25,8 +26,9 @@ namespace FluentQuery
         public IEnumerable<IDictionary<string, string>> Results => _results;
 
         public IEnumerable<T> ResultsAs<T>()
+            where T : new()
         {
-            throw new System.NotImplementedException();
+            return _results.Select(s => new T());
         }
     }
 }
