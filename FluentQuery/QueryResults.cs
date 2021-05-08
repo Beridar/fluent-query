@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,10 +38,21 @@ namespace FluentQuery
 
                 foreach(var property in propertiesToMap)
                     if (s.ContainsKey(property.Name))
-                        property.SetValue(resultObject, s[property.Name]);
+                        SetValue(property, resultObject, s);
 
                 return resultObject;
             });
+        }
+
+        private static void SetValue<T>(PropertyInfo property, T resultObject, IDictionary<string, string> s)
+            where T : new()
+        {
+            object valueToSet = s[property.Name];
+
+            if (property.PropertyType == typeof(int))
+                valueToSet = Convert.ToInt32(valueToSet);
+
+            property.SetValue(resultObject, valueToSet);
         }
     }
 }
