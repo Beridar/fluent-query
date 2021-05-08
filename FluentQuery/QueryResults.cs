@@ -29,7 +29,7 @@ namespace FluentQuery
         public IEnumerable<T> ResultsAs<T>()
             where T : new()
         {
-            var propertiesToMap = typeof(T).GetProperties(BindingFlags.Public);
+            var propertiesToMap = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             return _results.Select(s =>
             {
