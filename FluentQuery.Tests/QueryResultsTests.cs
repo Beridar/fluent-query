@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using FluentAssertions.Common;
 using NUnit.Framework;
 
 namespace FluentQuery.Tests
@@ -10,32 +9,33 @@ namespace FluentQuery.Tests
     public class QueryResultsTests
     {
         private QueryResults _queryResults;
-        private IEnumerable<IDictionary<string, string>> _results;
+        private IEnumerable<IDictionary<string, object>> _results;
 
         [SetUp]
         public void Setup()
         {
-            _results = new Dictionary<string, string>[0];
+            _results = new[]
+            {
+                new Dictionary<string, object>
+                {
+                    ["Key"] = "Value"
+                }
+            };
             _queryResults = new QueryResults(_results);
         }
 
         [Test]
         public void Queryresults_should_be_a_wrapper_for_an_enumerable()
         {
-            _queryResults.GetEnumerator()
-                .Should()
-                .BeSameAs(_results.GetEnumerator());
-
-            _queryResults.Results
-                .Should()
-                .BeSameAs(_results);
+            _queryResults.Results.ElementAt(0)["Key"]
+                .Should().Be("Value");
         }
     }
 
     [TestFixture]
     public class QueryResultsAsTests
     {
-        private IEnumerable<IDictionary<string, string>> _results;
+        private IEnumerable<IDictionary<string, object>> _results;
         private QueryResults _queryResults;
 
         private string _publicStringWithGetAndSet;
@@ -60,12 +60,12 @@ namespace FluentQuery.Tests
 
             _results = new[]
             {
-                new Dictionary<string, string>()
+                new Dictionary<string, object>()
                 {
                     [nameof(TestObject.PublicStringWithGetAndSet)] = _publicStringWithGetAndSet,
                     [nameof(TestObject.PublicStringField)] = _publicStringField,
                     [nameof(TestObject.PublicWriteonlyString)] = _publicWriteonlyString,
-                    [nameof(TestObject.PublicIntWithGetAndSet)] = $"{_publicIntWithGetAndSet}",
+                    [nameof(TestObject.PublicIntWithGetAndSet)] = _publicIntWithGetAndSet,
                     [nameof(TestObject.PublicObjectWithGetAndSet)] = _publicObjectWithGetAndSet,
                     ["PrivateStringField"] = _privateStringField,
                     ["PrivateStringProperty"] = _privateStringProperty,
@@ -81,6 +81,7 @@ namespace FluentQuery.Tests
             var mapped = _queryResults.ResultsAs<TestObject>()
                 .FirstOrDefault();
 
+            // ReSharper disable once PossibleNullReferenceException
             mapped.PublicIntWithGetAndSet
                 .Should().Be(_publicIntWithGetAndSet);
         }

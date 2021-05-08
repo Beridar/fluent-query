@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,23 @@ namespace FluentQuery
 {
     public class QueryResults : IQueryResults
     {
-        private readonly IEnumerable<IDictionary<string, string>> _results;
+        private readonly IEnumerable<IDictionary<string, object>> _results;
 
-        public QueryResults(IEnumerable<IDictionary<string, string>> results)
+        public QueryResults(IEnumerable<IDictionary<string, object>> results)
         {
             _results = results;
         }
 
+        private IEnumerable<IDictionary<string, string>> ResultsWithStringValues()
+        {
+            foreach (var result in _results)
+                yield return result.ToDictionary(k => k.Key,
+                    k => k.Value?.ToString());
+        }
+
         public IEnumerator<IDictionary<string, string>> GetEnumerator()
         {
-            return _results.GetEnumerator();
+            return ResultsWithStringValues().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -25,7 +31,7 @@ namespace FluentQuery
             return GetEnumerator();
         }
 
-        public IEnumerable<IDictionary<string, string>> Results => _results;
+        public IEnumerable<IDictionary<string, string>> Results => ResultsWithStringValues();
 
         public IEnumerable<T> ResultsAs<T>()
             where T : new()
@@ -38,21 +44,10 @@ namespace FluentQuery
 
                 foreach(var property in propertiesToMap)
                     if (s.ContainsKey(property.Name))
-                        SetValue(property, resultObject, s);
+                        property.SetValue(resultObject, s[property.Name]);
 
                 return resultObject;
             });
-        }
-
-        private static void SetValue<T>(PropertyInfo property, T resultObject, IDictionary<string, string> s)
-            where T : new()
-        {
-            object valueToSet = s[property.Name];
-
-            if (property.PropertyType == typeof(int))
-                valueToSet = Convert.ToInt32(valueToSet);
-
-            property.SetValue(resultObject, valueToSet);
         }
     }
 }
