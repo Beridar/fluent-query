@@ -12,6 +12,11 @@ namespace FluentQuery
         public ISelectedDatabase ForDatabase(string databaseName)
         {
             Database = databaseName;
+
+            return new SelectedDatabase
+            {
+                Database = Database
+            };
         }
     }
 }

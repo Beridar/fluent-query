@@ -20,10 +20,10 @@ namespace FluentQuery.Tests
         {
             var database = Guid.NewGuid().ToString();
 
-            _fluentQuery
+            var selectedDatabase = _fluentQuery
                 .ForDatabase(database);
 
-            _fluentQuery.Database
+            selectedDatabase.Database
                 .Should()
                 .Be(database);
         }
