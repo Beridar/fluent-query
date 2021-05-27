@@ -7,15 +7,11 @@ namespace FluentQuery
 
     public class FluentQuery : IFluentQuery
     {
-        public string Database { get; private set; }
-
         public ISelectedDatabase ForDatabase(string databaseName)
         {
-            Database = databaseName;
-
             return new SelectedDatabase
             {
-                Database = Database
+                Database = databaseName
             };
         }
     }
