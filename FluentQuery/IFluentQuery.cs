@@ -1,3 +1,5 @@
+using System;
+
 namespace FluentQuery
 {
     public interface IFluentQuery
@@ -7,12 +9,20 @@ namespace FluentQuery
 
     public class FluentQuery : IFluentQuery
     {
+        private readonly Func<ISelectedDatabase> _selectedDatabase;
+
+        public FluentQuery(Func<ISelectedDatabase> selectedDatabase)
+        {
+            _selectedDatabase = selectedDatabase;
+        }
+
         public ISelectedDatabase ForDatabase(string databaseName)
         {
-            return new SelectedDatabase
-            {
-                Database = databaseName
-            };
+            var selectedDatabase = _selectedDatabase();
+
+            selectedDatabase.Database = databaseName;
+
+            return selectedDatabase;
         }
     }
 }

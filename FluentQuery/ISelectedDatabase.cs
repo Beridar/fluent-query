@@ -3,7 +3,7 @@ namespace FluentQuery
     public interface ISelectedDatabase : IQueryBuilder
     {
         bool Exists { get; }
-        public string Database { get; }
+        public string Database { get; set; }
     }
 
     public class SelectedDatabase : ISelectedDatabase
