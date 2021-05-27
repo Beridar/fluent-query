@@ -12,7 +12,7 @@ namespace FluentQuery.Tests
         [SetUp]
         public void Setup()
         {
-            _fluentQuery = new FluentQuery(() => new SelectedDatabase());
+            _fluentQuery = new FluentQuery(() => new ExecutableQuery());
         }
 
         [Test]

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace FluentQuery
 {
-    public interface IExecutableQuery : IQueryBuilder
+    public interface IExecutableQuery : ISelectedDatabase
     {
         bool IsExecutable();
         IQueryResults Execute();
@@ -15,6 +17,21 @@ namespace FluentQuery
 
         public IExecutableQuery WithParameters(object parameters)
         {
+            if (parameters == null)
+            {
+                QueryParameters = null;
+                return ???;
+            }
+
+            QueryParameters = parameters is IDictionary<string, object> dictionaryParameters
+                ? dictionaryParameters
+                : ConvertObjectToDictionary(parameters);
+
+            return ???;
+        }
+
+        private IDictionary<string, object> ConvertObjectToDictionary(object parameters)
+        {
             throw new System.NotImplementedException();
         }
 
@@ -27,5 +44,11 @@ namespace FluentQuery
         {
             throw new System.NotImplementedException();
         }
+
+        public bool Exists { get; }
+
+        public string Database { get; set; }
+
+        public IDictionary<string, object> QueryParameters { get; private set; }
     }
 }
