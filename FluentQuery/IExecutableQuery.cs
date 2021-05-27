@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace FluentQuery
 {
@@ -32,7 +34,12 @@ namespace FluentQuery
 
         private IDictionary<string, object> ConvertObjectToDictionary(object parameters)
         {
-            throw new System.NotImplementedException();
+            if (parameters == null) return new Dictionary<string, object>();
+
+            return parameters
+                .GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.Public)
+                .ToDictionary(k => k.Name, v => v.GetValue(parameters));
         }
 
         public bool IsExecutable()
