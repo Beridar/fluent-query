@@ -20,14 +20,14 @@ namespace FluentQuery
             if (parameters == null)
             {
                 QueryParameters = null;
-                return ???;
+                return this;
             }
 
             QueryParameters = parameters is IDictionary<string, object> dictionaryParameters
                 ? dictionaryParameters
                 : ConvertObjectToDictionary(parameters);
 
-            return ???;
+            return this;
         }
 
         private IDictionary<string, object> ConvertObjectToDictionary(object parameters)
