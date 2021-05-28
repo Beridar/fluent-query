@@ -14,7 +14,9 @@ namespace FluentQuery
     {
         public IExecutableQuery Query(string query)
         {
-            throw new System.NotImplementedException();
+            QueryText = query;
+
+            return this;
         }
 
         public IExecutableQuery WithParameters(object parameters)
@@ -51,5 +53,6 @@ namespace FluentQuery
         public string Database { get; set; }
 
         public IDictionary<string, object> QueryParameters { get; private set; } = new Dictionary<string, object>();
+        public string QueryText { get; private set; }
     }
 }

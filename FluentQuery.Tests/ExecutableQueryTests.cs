@@ -57,5 +57,16 @@ namespace FluentQuery.Tests
                 .Keys
                 .Should().BeEmpty();
         }
+
+        [Test]
+        public void Query_should_just_save_the_query()
+        {
+            var expectedQuery = "SELECT * FROM table";
+
+            _executableQuery.Query(expectedQuery);
+
+            _executableQuery.QueryText
+                .Should().Be(expectedQuery);
+        }
     }
 }
