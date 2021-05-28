@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -46,6 +47,9 @@ namespace FluentQuery
 
         public IQueryResults Execute()
         {
+            if (IsExecutable() == false)
+                throw new InvalidOperationException("IExecutableQuery is not in an executable state.");
+
             throw new System.NotImplementedException();
         }
 

@@ -78,5 +78,19 @@ namespace FluentQuery.Tests
             _executableQuery.IsExecutable()
                 .Should().BeTrue();
         }
+
+        [Test]
+        public void Execute_should_throw_InvalidOperationException_when_the_query_is_not_executable()
+        {
+            try
+            {
+                _executableQuery.Execute();
+
+                Assert.Fail($"Expected {nameof(InvalidOperationException)} to be thrown, but no exception was thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        }
     }
 }
