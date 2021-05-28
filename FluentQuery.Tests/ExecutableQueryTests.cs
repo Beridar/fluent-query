@@ -47,5 +47,15 @@ namespace FluentQuery.Tests
             _executableQuery.QueryParameters["Parameter"]
                 .Should().BeSameAs(_savedObjectParameter);
         }
+
+        [Test]
+        public void WithParameters_should_treat_null_as_an_empty_set()
+        {
+            _executableQuery.WithParameters(null);
+
+            _executableQuery.QueryParameters
+                .Keys
+                .Should().BeEmpty();
+        }
     }
 }

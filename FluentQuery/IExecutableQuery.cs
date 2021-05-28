@@ -19,12 +19,6 @@ namespace FluentQuery
 
         public IExecutableQuery WithParameters(object parameters)
         {
-            if (parameters == null)
-            {
-                QueryParameters = null;
-                return this;
-            }
-
             QueryParameters = parameters is IDictionary<string, object> dictionaryParameters
                 ? dictionaryParameters
                 : ConvertObjectToDictionary(parameters);
