@@ -50,6 +50,6 @@ namespace FluentQuery
 
         public string Database { get; set; }
 
-        public IDictionary<string, object> QueryParameters { get; private set; }
+        public IDictionary<string, object> QueryParameters { get; private set; } = new Dictionary<string, object>();
     }
 }
