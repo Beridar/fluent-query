@@ -5,6 +5,8 @@ namespace FluentQuery
     public interface IQueryResults : IEnumerable<IDictionary<string, string>>
     {
         IEnumerable<IDictionary<string, string>> Results { get; }
-        IEnumerable<T> ResultsAs<T>();
+
+        IEnumerable<T> ResultsAs<T>()
+            where T : new();
     }
 }
