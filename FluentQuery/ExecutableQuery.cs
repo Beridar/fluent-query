@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 
@@ -61,7 +63,42 @@ namespace FluentQuery
             if (IsExecutable() == false)
                 throw new InvalidOperationException("IExecutableQuery is not in an executable state.");
 
-            throw new System.NotImplementedException();
+            using var command = CreateOpenCommandTo(Database);
+
+            InjectParametersInto(command);
+
+            var databaseResults = command.ExecuteReader();
+            var extractedData = new List<IDictionary<string, object>>();
+            var resultSetSchema = databaseResults.GetColumnSchema();
+
+            while (databaseResults.HasRows)
+            {
+                extractedData.Add(resultSetSchema.ToDictionary(column => column.ColumnName,
+                    column => databaseResults[column.ColumnName]));
+
+                databaseResults.Read();
+            }
+
+            return new QueryResults(extractedData);
+        }
+
+        private DbCommand CreateOpenCommandTo(string database)
+        {
+            var command = new SqlCommand();
+
+            command.Connection.Open();
+
+            return command;
+        }
+
+        private void InjectParametersInto(DbCommand connection)
+        {
+            foreach (var parameter in QueryParameters)
+                connection.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = parameter.Key,
+                    Value = parameter.Value
+                });
         }
 
         public string Database { get; set; }
