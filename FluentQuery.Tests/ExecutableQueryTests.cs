@@ -27,6 +27,19 @@ namespace FluentQuery.Tests
         }
 
         [Test]
+        public void It_should_save_the_database()
+        {
+            var database = Guid.NewGuid().ToString();
+
+            var selectedDatabase = _executableQuery
+                .ForDatabase(database);
+
+            selectedDatabase.Database
+                .Should()
+                .Be(database);
+        }
+
+        [Test]
         public void WithParameters_should_save_an_existing_dictionary_directly()
         {
             _executableQuery.WithParameters(_keyValuePairParameters);

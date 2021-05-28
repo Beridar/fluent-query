@@ -5,14 +5,25 @@ using System.Reflection;
 
 namespace FluentQuery
 {
-    public interface IExecutableQuery : ISelectedDatabase
+    public interface IExecutableQuery
     {
+        IExecutableQuery ForDatabase(string databaseName);
+        IExecutableQuery Query(string query);
+        IExecutableQuery WithParameters(object parameters);
+        public string Database { get; set; }
         bool IsExecutable();
         IQueryResults Execute();
     }
 
     public class ExecutableQuery : IExecutableQuery
     {
+        public IExecutableQuery ForDatabase(string databaseName)
+        {
+            Database = databaseName;
+
+            return this;
+        }
+
         public IExecutableQuery Query(string query)
         {
             QueryText = query;
@@ -53,11 +64,10 @@ namespace FluentQuery
             throw new System.NotImplementedException();
         }
 
-        public bool Exists { get; }
-
         public string Database { get; set; }
 
         public IDictionary<string, object> QueryParameters { get; private set; } = new Dictionary<string, object>();
+
         public string QueryText { get; private set; }
     }
 }
