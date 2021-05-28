@@ -10,7 +10,6 @@ namespace FluentQuery
         IExecutableQuery ForDatabase(string databaseName);
         IExecutableQuery Query(string query);
         IExecutableQuery WithParameters(object parameters);
-        bool Exists { get; }
         public string Database { get; set; }
         bool IsExecutable();
         IQueryResults Execute();
@@ -65,11 +64,10 @@ namespace FluentQuery
             throw new System.NotImplementedException();
         }
 
-        public bool Exists { get; }
-
         public string Database { get; set; }
 
         public IDictionary<string, object> QueryParameters { get; private set; } = new Dictionary<string, object>();
+
         public string QueryText { get; private set; }
     }
 }
