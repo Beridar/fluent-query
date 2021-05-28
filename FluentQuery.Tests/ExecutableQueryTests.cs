@@ -68,5 +68,15 @@ namespace FluentQuery.Tests
             _executableQuery.QueryText
                 .Should().Be(expectedQuery);
         }
+
+        [Test]
+        public void An_executableQuery_is_executable_when_there_is_both_a_database_and_a_query()
+        {
+            _executableQuery.Database = "database";
+            _executableQuery.Query("SELECT * FROM table");
+
+            _executableQuery.IsExecutable()
+                .Should().BeTrue();
+        }
     }
 }

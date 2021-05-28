@@ -40,7 +40,8 @@ namespace FluentQuery
 
         public bool IsExecutable()
         {
-            throw new System.NotImplementedException();
+            return Database != null
+                   && QueryText != null;
         }
 
         public IQueryResults Execute()
