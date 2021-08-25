@@ -9,4 +9,8 @@
       <ProjectReference Include="..\FluentQuery\FluentQuery.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SQLite" Version="3.13.0" />
+    </ItemGroup>
+
 </Project>
