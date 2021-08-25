@@ -1,12 +1,13 @@
-﻿using System;
-
-namespace FluentQuery.Demo
+﻿namespace FluentQuery.Demo
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var existingTables = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+                .AsDatabaseQuery()
+                .ForDatabase("system")
+                .Execute();
         }
     }
 }
