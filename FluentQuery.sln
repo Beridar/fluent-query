@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentQuery", "FluentQuery\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentQuery.Tests", "FluentQuery.Tests\FluentQuery.Tests.csproj", "{61A8FBC8-7200-482F-81C9-AF4577261BFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentQuery.Demo", "FluentQuery.Demo\FluentQuery.Demo.csproj", "{66DCE7CA-0D17-4454-A79E-0B1F7EEC81E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{61A8FBC8-7200-482F-81C9-AF4577261BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61A8FBC8-7200-482F-81C9-AF4577261BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61A8FBC8-7200-482F-81C9-AF4577261BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DCE7CA-0D17-4454-A79E-0B1F7EEC81E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DCE7CA-0D17-4454-A79E-0B1F7EEC81E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DCE7CA-0D17-4454-A79E-0B1F7EEC81E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DCE7CA-0D17-4454-A79E-0B1F7EEC81E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
