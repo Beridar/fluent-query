@@ -9,6 +9,7 @@ namespace FluentQuery.Tests
     public class ExecutableQueryTests
     {
         private ExecutableQuery _executableQuery;
+        private ExecutableQuery _fullyPreparedQuery;
         private Dictionary<string, object> _keyValuePairParameters;
         private object _savedObjectParameter;
 
@@ -24,6 +25,11 @@ namespace FluentQuery.Tests
             };
 
             _savedObjectParameter = Guid.NewGuid();
+
+            _fullyPreparedQuery = new ExecutableQuery();
+            _fullyPreparedQuery.ForDatabase("any database");
+            _fullyPreparedQuery.WithConnectionString("a connection string");
+            _fullyPreparedQuery.Query("select * from a table");
         }
 
         [Test]
@@ -83,10 +89,11 @@ namespace FluentQuery.Tests
         }
 
         [Test]
-        public void An_executableQuery_is_executable_when_there_is_both_a_database_and_a_query()
+        public void An_executableQuery_is_executable_when_there_is_a_database_and_a_query_and_a_connection_string()
         {
             _executableQuery.Database = "database";
             _executableQuery.Query("SELECT * FROM table");
+            _executableQuery.WithConnectionString("any connection string");
 
             _executableQuery.IsExecutable()
                 .Should().BeTrue();
@@ -104,6 +111,26 @@ namespace FluentQuery.Tests
             catch (InvalidOperationException)
             {
             }
+        }
+
+        [Test]
+        public void The_connection_string_should_be_saved()
+        {
+            var expectedConnectionString = "my-custom-connection-string";
+
+            _executableQuery.WithConnectionString(expectedConnectionString);
+
+            _executableQuery.ConnectionString
+                .Should().Be(expectedConnectionString);
+        }
+
+        [Test]
+        public void Not_having_a_connection_string_renders_the_query_unexecutable()
+        {
+            _fullyPreparedQuery.WithConnectionString(null);
+
+            _fullyPreparedQuery.IsExecutable()
+                .Should().BeFalse();
         }
     }
 }

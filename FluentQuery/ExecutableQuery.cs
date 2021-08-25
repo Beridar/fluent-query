@@ -15,6 +15,7 @@ namespace FluentQuery
         public string Database { get; set; }
         bool IsExecutable();
         IQueryResults Execute();
+        IExecutableQuery WithConnectionString(string connectionString);
     }
 
     public class ExecutableQuery : IExecutableQuery
@@ -55,7 +56,8 @@ namespace FluentQuery
         public bool IsExecutable()
         {
             return Database != null
-                   && QueryText != null;
+                   && QueryText != null
+                   && ConnectionString != null;
         }
 
         public IQueryResults Execute()
@@ -86,7 +88,9 @@ namespace FluentQuery
         {
             var command = new SqlCommand();
 
+            command.Connection = new SqlConnection(ConnectionString);
             command.Connection.Open();
+            command.Connection.ChangeDatabase(database);
 
             return command;
         }
@@ -106,5 +110,14 @@ namespace FluentQuery
         public IDictionary<string, object> QueryParameters { get; private set; } = new Dictionary<string, object>();
 
         public string QueryText { get; private set; }
+
+        public string ConnectionString { get; private set; }
+
+        public IExecutableQuery WithConnectionString(string connectionString)
+        {
+            ConnectionString = connectionString;
+
+            return this;
+        }
     }
 }
